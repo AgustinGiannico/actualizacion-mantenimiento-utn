@@ -2,8 +2,8 @@
   <button class="back-button" (click)="goBack()">Volver Atrás</button>
   <h1 class="title">Gestión de Órdenes de Trabajo (OT)</h1>
 
-  <div *ngIf="message" class="message">{{ message }}</div>
-
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+  
   <div class="section-title">Lista de Órdenes de Trabajo</div>
 
   <table class="ot-table">

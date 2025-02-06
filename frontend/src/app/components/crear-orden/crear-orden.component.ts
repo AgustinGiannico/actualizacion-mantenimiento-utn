@@ -32,10 +32,9 @@ export class CrearOrdenComponent implements OnInit {
   floors: Floor[] = [];
   taskLists: TaskList[] = [];
   taskTypes: TaskType[] = [];
-  user: User[] = [];
   allTags: Tag[] = [];
   tasks: Task[] = [];
-  selectedOt: Ot | null = {
+  selectedOt: Ot = {
     id_ot: 0,
     order_number: '',
     request_date: new Date(),
@@ -58,7 +57,6 @@ export class CrearOrdenComponent implements OnInit {
   selectedSector?: string;
   selectedSite?: string;
   selectedTaskListSteps: string[] = [];
-  isEditing: boolean = false;
   selectedPriorityDescription: string = 'No asignado';
   selectedTaskTypeDescription: string = 'No asignado';
 
@@ -109,14 +107,13 @@ export class CrearOrdenComponent implements OnInit {
   }
 
   loadAllTags(): void {
-    this.apiService.getAll(this.apiUrls.tags).subscribe(tags => this.allTags = tags);
+    this.apiService.getAll(this.apiUrls.tags).subscribe(data => this.allTags = data);
   }
 
   loadEdifices(): void {
     this.apiService.getAll(this.apiUrls.edifices).subscribe({
       next: (data) => {
         this.edifices = data;
-        console.log("Edifices Loaded:", this.edifices);
       },
       error: (err) => {
         console.error("Error al cargar los edificios:", err);
@@ -140,7 +137,6 @@ export class CrearOrdenComponent implements OnInit {
     return new Promise((resolve) => {
       this.apiService.getAll(this.apiUrls.priorities).subscribe(data => {
         this.priorities = data;
-        console.log("Prioridades cargadas:", this.priorities);
         this.onPriorityChange();
         resolve();
       });
@@ -151,7 +147,6 @@ export class CrearOrdenComponent implements OnInit {
     return new Promise((resolve) => {
       this.apiService.getAll(this.apiUrls.taskTypes).subscribe(data => {
         this.taskTypes = data;
-        console.log("Tipos de tarea cargados:", this.taskTypes);
         resolve();
       });
     });
@@ -162,7 +157,7 @@ export class CrearOrdenComponent implements OnInit {
     const selectedTag = this.allTags.find(tag => tag.final_tag === target.value);
 
     if (selectedTag) {
-      this.selectedOt!.id_tag = selectedTag.id_tag;
+      this.selectedOt.id_tag = selectedTag.id_tag;
       this.selectedTag = selectedTag.final_tag;
       this.selectedAssetTypeName = selectedTag.asset_type;
       this.selectedEdificeName = selectedTag.edifice;
@@ -172,8 +167,7 @@ export class CrearOrdenComponent implements OnInit {
 
       const assetType = this.assetTypes.find(type => type.name === this.selectedAssetTypeName);
       if (assetType) {
-        this.selectedOt!.id_asset_type = assetType.id_asset_type;
-        console.log("id_asset_type asignado:", this.selectedOt!.id_asset_type);
+        this.selectedOt.id_asset_type = assetType.id_asset_type;
       }
 
       this.updateTaskList();
@@ -192,7 +186,6 @@ export class CrearOrdenComponent implements OnInit {
     if (this.selectedOt?.id_asset_type && this.selectedOt?.id_task_type) {
       const assetTypeId = this.selectedOt.id_asset_type;
       const taskTypeId = this.selectedOt.id_task_type;
-      console.log("Enviando para obtener la lista de tareas:", { assetTypeId, taskTypeId });
       this.loadTaskList(assetTypeId, taskTypeId);
     } else {
       console.error("Faltan datos de id_asset_type o id_task_type para cargar la lista de tareas.");
@@ -204,7 +197,7 @@ export class CrearOrdenComponent implements OnInit {
       next: (taskLists) => {
         if (taskLists.length > 0) {
           const taskList = taskLists[0];
-          this.selectedOt!.id_task_list = taskList.id_task_list;
+          this.selectedOt.id_task_list = taskList.id_task_list;
           this.selectedTaskListSteps = [
             taskList.step_1,
             taskList.step_2,
@@ -217,12 +210,9 @@ export class CrearOrdenComponent implements OnInit {
             taskList.step_9,
             taskList.step_10
           ].filter((step) => step);
-          console.log("Pasos de la lista de tareas seleccionada:", this.selectedTaskListSteps);
-          console.log("ID de Task List asignado a selectedOt:", this.selectedOt!.id_task_list);
         } else {
           this.selectedTaskListSteps = [];
-          this.selectedOt!.id_task_list = 0;
-          console.log("No se encontró ninguna lista de tareas para los criterios seleccionados.");
+          this.selectedOt.id_task_list = 0;
         }
       },
       error: (error) => {
@@ -232,19 +222,16 @@ export class CrearOrdenComponent implements OnInit {
   }
 
   onPriorityChange(): void {
-    console.log("ID de prioridad seleccionada:", this.selectedOt?.id_priority);
-    console.log("Prioridades actuales:", this.priorities);
-    const selectedPriorityId = +this.selectedOt?.id_priority!;
+    const selectedPriorityId = +this.selectedOt?.id_priority;
     const priority = this.priorities.find(p => +p.id_priority === selectedPriorityId);
     this.selectedPriorityDescription = priority ? priority.description : 'No asignado';
-    console.log("Descripción de la prioridad seleccionada en onPriorityChange:", this.selectedPriorityDescription);
   }
 
   createOt(): void {
     if (this.selectedOt) {
-      this.selectedOt.request_date = this.formatDateForMySQL(new Date()) as any;
-      this.selectedOt.initial_date = this.formatDateForMySQL(this.selectedOt.initial_date) as any;
-      this.selectedOt.completion_date = this.formatDateForMySQL(this.selectedOt.completion_date) as any;
+      this.selectedOt.request_date = this.formatDateForMySQL(new Date());
+      this.selectedOt.initial_date = this.formatDateForMySQL(this.selectedOt.initial_date);
+      this.selectedOt.completion_date = this.formatDateForMySQL(this.selectedOt.completion_date);
   
       if (!this.selectedOt.id_task_list || this.selectedOt.id_task_list === 0) {
         if (!this.selectedOt.id_task_type || this.selectedOt.id_task_type === 0) {
@@ -253,23 +240,19 @@ export class CrearOrdenComponent implements OnInit {
         }
         this.selectedOt.id_task_list = null;
       }
-  
-      console.log("Datos enviados a la API:", JSON.stringify(this.selectedOt, null, 2));
-  
+
       this.apiService.create(this.apiUrls.ot, this.selectedOt).subscribe({
         next: (newOt) => {
           this.ordenCreada.emit(newOt);
           this.resetForm();
-          console.log("OT creada exitosamente en la base de datos:", newOt);
         },
         error: (err) => console.error("Error al guardar la OT:", err.error || err),
       });
     }
   }
   
-
-  formatDateForMySQL(date: Date | string | null): string | null {
-    if (!date) return null;
+  formatDateForMySQL(date: Date | string | null): string {
+    if (!date) return '';
     if (date instanceof Date) {
       return date.toISOString().split('T')[0];
     }
@@ -288,12 +271,11 @@ export class CrearOrdenComponent implements OnInit {
       id_user: 0,
       id_task_list: 0,
       id_priority: 0,
-      id_ot_state: 1,
+      id_ot_state: 6,
       id_tag: 0,
       id_task_type: 0,
       id_asset_type: 0,
     };
-    this.isEditing = false;
     this.selectedAssetTypeName = '';
     this.selectedEdificeName = '';
     this.selectedFloorName = '';

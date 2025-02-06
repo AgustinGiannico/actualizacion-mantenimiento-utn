@@ -14,6 +14,7 @@ export class OtOperarioComponent implements OnInit {
   ots: Ot[] = [];
   paginatedOts: Ot[] = [];
   message: string | null = null;
+  messageType: 'success' | 'error' = 'success';
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
@@ -47,7 +48,6 @@ export class OtOperarioComponent implements OnInit {
     this.apiService.getAll(this.apiUrl).subscribe({
       next: (ots) => {
         this.ots = ots.filter(ot => ot.username === username);
-        console.log('Órdenes de trabajo cargadas:', this.ots);
         this.updatePagination();
       },
       error: () => {
@@ -98,7 +98,6 @@ export class OtOperarioComponent implements OnInit {
     }
   }
   
-
   updatePagination(): void {
     this.totalPages = Math.ceil(this.ots.length / this.itemsPerPage);
     this.updatePaginatedOts();
@@ -127,6 +126,14 @@ export class OtOperarioComponent implements OnInit {
   showCompleteInfo(ot: Ot): void {
     this.selectedOt = ot;
     this.showModal = true;
+  }
+
+  showMessage(message: string | null, type: 'success' | 'error'): void {
+    this.message = message;
+    this.messageType = type;
+    if (message) {
+      setTimeout(() => (this.message = null), 3000);
+    }
   }
 
   closeModal(): void {

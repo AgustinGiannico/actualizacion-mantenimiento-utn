@@ -52,7 +52,6 @@ export class EdificeComponent implements OnInit {
           id_location: location.id_location,
           name: location.name,
         }));
-        console.log('Localidades cargadas:', this.locations);
       },
       error: (error) => {
         this.showMessage('Error al cargar localidades', 'error');
@@ -65,7 +64,6 @@ export class EdificeComponent implements OnInit {
     this.apiService.getAll(this.apiUrl).subscribe({
       next: (data) => {
         this.edifices = data;
-        console.log('Edificios cargados:', this.edifices);
       },
       error: (error) => {
         this.showMessage(`Error al cargar los edificios: ${error}`, 'error');
@@ -111,7 +109,6 @@ export class EdificeComponent implements OnInit {
 
   onSubmit(): void {
     if (this.edificeForm.valid) {
-      console.log('Datos enviados al backend:', this.edificeForm.value);
 
       if (this.selectedEdifice) {
         this.apiService.update(this.apiUrl, this.selectedEdifice.id_edifice, this.edificeForm.value).subscribe({

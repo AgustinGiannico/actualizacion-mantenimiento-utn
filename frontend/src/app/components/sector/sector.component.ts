@@ -60,8 +60,7 @@ export class SectorComponent implements OnInit {
     this.selectedSector = null;
     this.sectorForm.reset();
     this.sectorForm.patchValue({
-      id_available: 1,
-      available: 'Disponible',
+      id_available: 1
     });
     this.showForm = true;
   }
@@ -69,8 +68,7 @@ export class SectorComponent implements OnInit {
   clearForm(): void {
     this.sectorForm.reset();
     this.sectorForm.patchValue({
-      id_available: 1,
-      available: 'Disponible',
+      id_available: 1
     });
     this.selectedSector = null;
     this.showForm = false;
