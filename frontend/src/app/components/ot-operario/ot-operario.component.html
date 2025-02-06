@@ -1,0 +1,89 @@
+<div class="ot-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Órdenes de Trabajo (OT)</h1>
+
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <div class="section-title">Lista de Órdenes de Trabajo</div>
+
+  <table class="ot-table">
+    <thead>
+      <tr>
+        <th>Número de Orden</th>
+        <th>Fecha de Solicitud</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Finalización</th>
+        <th>Observaciones</th>
+        <th>Usuario</th>
+        <th>Lista de Tareas</th>
+        <th>Prioridad</th>
+        <th>Estado de la OT</th>
+        <th>Tag</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ot of paginatedOts" class="ot-row">
+        <td>{{ ot.order_number }}</td>
+        <td>{{ ot.request_date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ ot.initial_date ? (ot.initial_date | date: 'dd/MM/yyyy') : '-' }}</td>
+        <td>{{ ot.completion_date ? (ot.completion_date | date: 'dd/MM/yyyy') : '-' }}</td>
+        <td>{{ ot.observations }}</td>
+        <td>{{ ot.username || '-' }}</td>
+        <td>{{ ot.task_list_steps || '-' }}</td>
+        <td>{{ ot.priority || '-' }}</td>
+        <td>{{ ot.ot_state || '-' }}</td>
+        <td>{{ ot.final_tag || '-' }}</td>
+        <td>
+          <button *ngIf="ot.ot_state === 'Pendiente'" (click)="startTask(ot)" class="start-button">
+            Iniciar Tarea
+          </button>
+          <button *ngIf="ot.ot_state === 'En progreso'" (click)="finishTask(ot)" class="finish-task-button">
+            Terminar Tarea
+          </button>
+
+          <button (click)="showCompleteInfo(ot)" class="info-button info-mobile">Info Completa</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngFor="let ot of paginatedOts" class="ot-row-mobile">
+    <div><strong>Número de Orden:</strong> {{ ot.order_number }}</div>
+    <div><strong>Operario:</strong> {{ ot.username || '-' }}</div>
+    <div class="actions">
+      <button *ngIf="ot.ot_state === 'Pendiente'" (click)="startTask(ot)" class="start-button">
+        Iniciar Tarea
+      </button>
+      <button *ngIf="ot.ot_state === 'En progreso'" (click)="finishTask(ot)" class="finish-task-button">
+        Terminar Tarea
+      </button>
+      <button (click)="showCompleteInfo(ot)" class="info-button">Info Completa</button>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente &gt;</button>
+  </div>
+
+  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Información Completa</h2>
+      <p><strong>Número de Orden:</strong> {{ selectedOt?.order_number }}</p>
+      <p><strong>Observaciones:</strong> {{ selectedOt?.observations }}</p>
+      <p><strong>Usuario:</strong> {{ selectedOt?.username || '-' }}</p>
+      <p><strong>Lista de Tareas:</strong> {{ selectedOt?.task_list_steps || '-' }}</p>
+      <p><strong>Prioridad:</strong> {{ selectedOt?.priority || '-' }}</p>
+      <p><strong>Estado de la OT:</strong> {{ selectedOt?.ot_state || '-' }}</p>
+      <p><strong>Tag:</strong> {{ selectedOt?.final_tag || '-' }}</p>
+      <p><strong>Edificio:</strong> {{ selectedOt?.edifice || '-' }}</p>
+      <p><strong>Piso:</strong> {{ selectedOt?.floor || '-' }}</p>
+      <p><strong>Sector:</strong> {{ selectedOt?.sector || '-' }}</p>
+      <p><strong>Ubicación:</strong> {{ selectedOt?.site || '-' }}</p>
+      <p><strong>Tipo de Activo:</strong> {{ selectedOt?.asset_type || '-' }}</p>
+      <button class="close-button" (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>

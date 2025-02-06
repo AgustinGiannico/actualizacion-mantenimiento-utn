@@ -1,0 +1,72 @@
+<div class="asset-type-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Tipos de Activo</h1>
+
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+
+  <div class="section-title">Lista de Tipos de Activo</div>
+
+  <table class="asset-type-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Referencia</th>
+        <th>Número de Tag</th>
+        <th>Disponibilidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let assetType of paginatedAssetTypes" class="asset-type-row">
+        <td>{{ assetType.name }}</td>
+        <td>{{ assetType.reference }}</td>
+        <td>{{ assetType.num_tag }}</td>
+        <td>{{ assetType.available }}</td>
+        <td>
+          <button class="edit-button" (click)="editAssetType(assetType)">Editar</button>
+          <button class="delete-button" (click)="deleteAssetType(assetType.id_asset_type)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente &gt;</button>
+  </div>
+
+  <div class="create-button-container">
+    <button class="create-button" (click)="openCreateForm()">Crear Nuevo Tipo de Activo</button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2 class="form-title">{{ selectedAssetType ? 'Editar Tipo de Activo' : 'Crear Nuevo Tipo de Activo' }}</h2>
+
+    <form [formGroup]="assetTypeForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input id="name" formControlName="name" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="reference">Referencia</label>
+        <input id="reference" formControlName="reference" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="num_tag">Número de Tag</label>
+        <input id="num_tag" formControlName="num_tag" class="form-input" />
+      </div>
+      <div *ngIf="selectedAssetType" class="form-group">
+        <label for="id_available">Disponibilidad</label>
+        <select id="id_available" formControlName="id_available" class="form-input">
+          <option [value]="1">Disponible</option>
+          <option [value]="2">No Disponible</option>
+        </select>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="submit-button">{{ selectedAssetType ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="clear-button" (click)="clearForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

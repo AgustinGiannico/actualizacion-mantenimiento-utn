@@ -1,0 +1,94 @@
+<div class="tag-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Tags</h1>
+
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+
+  <div class="section-title">Lista de Tags</div>
+
+  <table class="tag-table">
+    <thead>
+      <tr>
+        <th>Final Tag</th>
+        <th>Asset Number</th>
+        <th>Edificio</th>
+        <th>Piso</th>
+        <th>Sector</th>
+        <th>Sitio</th>
+        <th>Tipo de Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tag of paginatedTags" class="tag-row">
+        <td>{{ tag.final_tag }}</td>
+        <td>{{ tag.asset_number }}</td>
+        <td>{{ tag.edifice }}</td>
+        <td>{{ tag.floor }}</td>
+        <td>{{ tag.sector }}</td>
+        <td>{{ tag.site }}</td>
+        <td>{{ tag.asset_type }}</td>
+        <td>
+          <button class="edit-button" (click)="editTag(tag)">Editar</button>
+          <button class="delete-button" (click)="deleteTag(tag.id_tag)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente &gt;</button>
+  </div>
+
+  <div class="create-button-container">
+    <button class="create-button" (click)="openCreateForm()">Crear Nuevo Tag</button>
+  </div>
+
+
+  <div *ngIf="showForm" class="form-container">
+    <h2 class="form-title">{{ selectedTag ? 'Editar Tag' : 'Crear Nuevo Tag' }}</h2>
+    <form [formGroup]="tagForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="asset_number">Número de Activo</label>
+        <input id="asset_number" formControlName="asset_number" type="text" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="id_edifice">Edificio</label>
+        <select id="id_edifice" formControlName="id_edifice" class="form-input">
+          <option *ngFor="let edifice of edifices" [value]="edifice.id">{{ edifice.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_floor">Piso</label>
+        <select id="id_floor" formControlName="id_floor" class="form-input">
+          <option *ngFor="let floor of floors" [value]="floor.id">{{ floor.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_sector">Sector</label>
+        <select id="id_sector" formControlName="id_sector" class="form-input">
+          <option *ngFor="let sector of sectors" [value]="sector.id">{{ sector.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_site">Sitio</label>
+        <select id="id_site" formControlName="id_site" class="form-input">
+          <option *ngFor="let site of sites" [value]="site.id">{{ site.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="id_asset_type">Tipo de Activo</label>
+        <select id="id_asset_type" formControlName="id_asset_type" class="form-input">
+          <option *ngFor="let assetType of assetTypes" [value]="assetType.id">{{ assetType.name }}</option>
+        </select>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="submit-button">{{ selectedTag ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="clear-button" (click)="clearForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+    
+</div>

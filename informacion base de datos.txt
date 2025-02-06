@@ -1,0 +1,78 @@
+Tablas y Estructura de la Base de Datos
+provinces
+Campos: id_province (PK), name
+Relaciones: Relacionada con locations a través de id_province.
+
+locations
+Campos: id_location (PK), name, postal_code, id_province (FK)
+Relaciones: Relacionada con provinces por id_province.
+
+availables
+Campos: id_available (PK), description, state
+Relaciones: Relacionada con múltiples tablas (edifices, floors, sectors, asset_types, users) para indicar disponibilidad.
+
+edifices
+Campos: id_edifice (PK), name, num_tag, number, street, id_location (FK), id_available (FK)
+Relaciones:
+Relacionada con locations por id_location.
+Relacionada con availables por id_available.
+Relacionada con tags por id_edifice.
+
+floors
+Campos: id_floor (PK), name, num_tag, id_available (FK)
+Relaciones:
+Relacionada con availables por id_available.
+Relacionada con tags por id_floor.
+
+sectors
+Campos: id_sector (PK), name, num_tag, id_available (FK)
+Relaciones:
+Relacionada con availables por id_available.
+Relacionada con tags por id_sector.
+
+sites
+Campos: id_site (PK), name, num_tag
+Relaciones: Relacionada con tags por id_site.
+
+priorities
+Campos: id_priority (PK), description
+Relaciones: Relacionada con ots por id_priority.
+
+asset_types
+Campos: id_asset_type (PK), name, reference, num_tag, id_available (FK)
+Relaciones:
+Relacionada con availables por id_available.
+Relacionada con task_lists por id_asset_type.
+Relacionada con tags por id_asset_type.
+
+task_types
+Campos: id_task_type (PK), name, code
+Relaciones: Relacionada con task_lists por id_task_type.
+
+tasks
+Campos: id_task (PK), description
+Relaciones: Relacionada con task_lists como pasos (step_1 a step_10).
+
+task_lists
+Campos: id_task_list (PK), id_asset_type (FK), id_task_type (FK), step_1 a step_10 (FK)
+Relaciones:
+Relacionada con asset_types por id_asset_type.
+Relacionada con task_types por id_task_type.
+Relacionada con tasks por los campos step_1 a step_10.
+
+tags
+Campos: id_tag (PK), final_tag, id_edifice (FK), id_floor (FK), id_sector (FK), id_site (FK), id_asset_type (FK), asset_number
+Relaciones:
+Relacionada con edifices, floors, sectors, sites, asset_types.
+
+users
+Campos: id_user (PK), username, last_name, email, password, id_available (FK)
+Relaciones: Relacionada con availables por id_available.
+
+ots
+Campos: id_ot (PK), order_number, request_date, initial_date, completion_date, completion_time, observations, id_user (FK), id_tag (FK), id_task_list (FK), id_priority (FK), id_ot_state (FK)
+Relaciones:
+Relacionada con users por id_user.
+Relacionada con tags por id_tag.
+Relacionada con task_lists por id_task_list.
+Relacionada con priorities por id_priority.

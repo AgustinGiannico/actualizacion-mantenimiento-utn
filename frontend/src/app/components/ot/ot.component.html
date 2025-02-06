@@ -1,0 +1,49 @@
+<div class="ot-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Órdenes de Trabajo (OT)</h1>
+
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+
+  <div class="section-title">Lista de Órdenes de Trabajo</div>
+
+  <table class="ot-table">
+    <thead>
+      <tr>
+        <th>Número de Orden</th>
+        <th>Fecha de Solicitud</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Finalización</th>
+        <th>Tiempo de Finalización</th>
+        <th>Observaciones</th>
+        <th>Usuario</th>
+        <th>Prioridad</th>
+        <th>Estado de la OT</th>
+        <th>Tag</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ot of paginatedOts" class="ot-row">
+        <td>{{ ot.order_number }}</td>
+        <td>{{ ot.request_date | date }}</td>
+        <td>{{ ot.initial_date | date }}</td>
+        <td>{{ ot.completion_date | date }}</td>
+        <td>{{ ot.completion_time || '-' }}</td>
+        <td>{{ ot.observations }}</td>
+        <td>{{ ot.username || '-' }}</td>
+        <td>{{ ot.priority || '-' }}</td>
+        <td>{{ ot.ot_state || '-' }}</td>
+        <td>{{ ot.final_tag || '-' }}</td>
+        <td>
+          <button class="delete-button" (click)="deleteOt(ot.id_ot)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente &gt;</button>
+  </div>
+</div>

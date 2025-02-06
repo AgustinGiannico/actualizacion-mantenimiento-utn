@@ -1,0 +1,30 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', "Helvetica Neue", sans-serif;
+}
+
+.mat-mdc-raised-button {
+    border-radius: 0.5rem;
+    width: 10rem;
+}
+
+.mat-mdc-menu-panel {
+    width: 10rem;
+}
+
+@media (max-width: 600px) {
+    .mat-mdc-raised-button {
+        width: 100%;
+        max-width: 8rem;
+    }
+
+    .mat-mdc-menu-panel {
+        width: 100%;
+        max-width: 8rem;
+    }
+}

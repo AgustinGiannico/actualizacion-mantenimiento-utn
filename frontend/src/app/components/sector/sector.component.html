@@ -1,0 +1,66 @@
+<div class="sector-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Sectores</h1>
+
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+
+  <div class="section-title">Lista de Sectores</div>
+
+  <table class="sector-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Número de Tag</th>
+        <th>Disponibilidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sector of paginatedSectors" class="sector-row">
+        <td>{{ sector.name }}</td>
+        <td>{{ sector.num_tag }}</td>
+        <td>{{ sector.available }}</td>
+        <td>
+          <button class="edit-button" (click)="editSector(sector)">Editar</button>
+          <button class="delete-button" (click)="deleteSector(sector.id_sector)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente &gt;</button>
+  </div>
+
+  <div class="create-button-container">
+    <button class="create-button" (click)="openCreateForm()">Crear Nuevo Sector</button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2 class="form-title">{{ selectedSector ? 'Editar Sector' : 'Crear Nuevo Sector' }}</h2>
+
+    <form [formGroup]="sectorForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input id="name" formControlName="name" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="num_tag">Número de Tag</label>
+        <input id="num_tag" formControlName="num_tag" class="form-input" />
+      </div>
+      <div class="form-group" *ngIf="selectedSector">
+        <label for="id_available">Disponibilidad</label>
+        <select id="id_available" formControlName="id_available" class="form-input">
+          <option [value]="1">Disponible</option>
+          <option [value]="2">No Disponible</option>
+        </select>
+      </div>             
+      <div class="form-buttons">
+        <button type="submit" class="submit-button">{{ selectedSector ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="clear-button" (click)="clearForm()">Cancelar</button>
+      </div>
+    </form>    
+  </div>
+</div>

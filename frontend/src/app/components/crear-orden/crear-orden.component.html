@@ -1,0 +1,83 @@
+<button class="back-button" (click)="goBack()">Volver Atrás</button>
+<div class="ot-form-container">
+
+  <h1 class="ot-title">Gestión de Órdenes de Trabajo</h1>
+
+  <form (ngSubmit)="createOt()" *ngIf="selectedOt" class="ot-form">
+    <div class="form-group">
+      <label for="tagSelect">TAG</label>
+      <select id="tagSelect" (change)="onTagChange($event)" class="form-input">
+        <option *ngFor="let tag of allTags" [value]="tag.final_tag">{{ tag.final_tag }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="assetType">Tipo de Activo</label>
+      <input id="assetType" [value]="selectedAssetTypeName" readonly class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="edifice">Edificio</label>
+      <input id="edifice" [value]="selectedEdificeName" readonly class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="floor">Piso</label>
+      <input id="floor" [value]="selectedFloorName" readonly class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="sector">Sector</label>
+      <input id="sector" [value]="selectedSector" readonly class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="site">Sitio</label>
+      <input id="site" [value]="selectedSite" readonly class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="taskType">Tipo de Tarea</label>
+      <select [(ngModel)]="selectedOt.id_task_type" name="id_task_type" (change)="onTaskTypeChange()" class="form-input">
+        <option *ngFor="let taskType of taskTypes" [value]="taskType.id_task_type">{{ taskType.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="taskList">Lista de Tareas</label>
+      <ul *ngIf="selectedTaskListSteps.length > 0" class="task-list-steps">
+        <li *ngFor="let step of selectedTaskListSteps">{{ step }}</li>
+      </ul>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Prioridad</label>
+      <select [(ngModel)]="selectedOt.id_priority" name="id_priority" class="form-input" (change)="onPriorityChange()">
+        <option *ngFor="let priority of priorities" [value]="priority.id_priority">{{ priority.description }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="operarioSelect">Operario</label>
+      <select
+        id="operarioSelect"
+        [(ngModel)]="selectedOt.id_user"
+        name="id_user"
+        class="form-input"
+      >
+        <option *ngFor="let user of users" [value]="user.id_user">
+          {{ user.username }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="observations">Observaciones</label>
+      <textarea placeholder="Observaciones" [(ngModel)]="selectedOt.observations" name="observations" class="form-input textarea"></textarea>
+    </div>
+
+    <div class="button-container">
+    <button type="submit" class="submit-button">Crear</button>
+  </div>
+  </form>
+</div>

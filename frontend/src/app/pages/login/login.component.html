@@ -1,0 +1,48 @@
+<header class="header">
+  <div class="header-content">
+    <img class="logo" src="../../../assets/utn.png" alt="logo" />
+  </div>
+</header>
+
+<div class="login-container">
+  <div class="login-content">
+    <h3>Iniciar Sesión</h3>
+
+    <form [formGroup]="formLogin" autocomplete="off">
+        <div class="mensaje-container" [ngClass]="tipoMensaje">
+            <p *ngIf="mensaje">{{ mensaje }}</p>
+        </div>
+
+      <div class="login-field">
+        <label>Email</label>
+        <input
+          class="inputStyle"
+          type="text"
+          formControlName="email"
+          required
+        />
+      </div>
+
+      <div class="login-field">
+        <label>Contraseña</label>
+        <input
+          class="inputStyle"
+          type="password"
+          formControlName="password"
+          required
+        />
+      </div>
+
+      <div class="login-button">
+        <button
+          class="submitButton"
+          [ngClass]="{ enabled: formLogin.valid, disabled: !formLogin.valid }"
+          (click)="enviarDatos()"
+          [disabled]="!formLogin.valid"
+        >
+          Iniciar Sesión
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

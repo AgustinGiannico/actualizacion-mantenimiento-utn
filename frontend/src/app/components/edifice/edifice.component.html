@@ -1,0 +1,82 @@
+<div class="edifice-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Edificios</h1>
+
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+
+  <div class="section-title">Lista de Edificios</div>
+
+  <table class="edifice-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Ubicación</th>
+        <th>Disponibilidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let edifice of edifices" class="edifice-row">
+        <td>{{ edifice.name }}</td>
+        <td>{{ edifice.street }}, {{ edifice.number }}</td>
+        <td>{{ edifice.location }}, {{ edifice.province }}</td>
+        <td>{{ edifice.available }}</td>
+        <td>
+          <button class="edit-button" (click)="getEdificeById(edifice.id_edifice)">Editar</button>
+          <button class="delete-button" (click)="deleteEdifice(edifice.id_edifice)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="create-button-container">
+    <button class="create-button" (click)="openCreateForm()">Crear Nuevo Edificio</button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2 class="form-title">{{ selectedEdifice ? 'Editar Edificio' : 'Crear Nuevo Edificio' }}</h2>
+
+    <form [formGroup]="edificeForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input id="name" formControlName="name" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="num_tag">Número de Tag</label>
+        <input id="num_tag" formControlName="num_tag" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="street">Calle</label>
+        <input id="street" formControlName="street" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="number">Número</label>
+        <input id="number" formControlName="number" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="id_location">Localidad</label>
+        <select id="id_location" formControlName="id_location" class="form-input">
+          <option value="" disabled selected>Seleccione una localidad</option>
+          <option *ngFor="let location of locations" [value]="location.id_location">
+            {{ location.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group" *ngIf="selectedEdifice">
+        <label for="id_available">Disponibilidad</label>
+        <select id="id_available" formControlName="id_available" class="form-input">
+          <option [value]="1">Disponible</option>
+          <option [value]="2">No Disponible</option>
+        </select>
+      </div>           
+
+      <div class="form-buttons">
+        <button type="submit" class="submit-button" [disabled]="!edificeForm.valid">
+          {{ selectedEdifice ? 'Actualizar' : 'Crear' }}
+        </button>
+        <button type="button" class="clear-button" (click)="clearForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

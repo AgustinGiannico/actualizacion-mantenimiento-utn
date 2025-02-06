@@ -1,0 +1,3461 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Mantenimiento UTN",
+        "version": "1.0.0",
+        "description": "Documentación de la API para la gestión de tipos de activos en la UTN"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3011",
+            "description": "Servidor de desarrollo"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "Asset Type": {
+                "type": "object",
+                "properties": {
+                    "id_asset_type": {
+                        "type": "integer",
+                        "description": "ID del tipo de activo"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del tipo de activo"
+                    },
+                    "reference": {
+                        "type": "string",
+                        "description": "Referencia del tipo de activo"
+                    },
+                    "num_tag": {
+                        "type": "string",
+                        "description": "Número de tag del tipo de activo"
+                    },
+                    "available": {
+                        "type": "string",
+                        "description": "Estado de disponibilidad del tipo de activo"
+                    }
+                }
+            },
+            "Available": {
+                "type": "object",
+                "properties": {
+                    "id_available": {
+                        "type": "integer",
+                        "description": "ID de la disponibilidad"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Descripción de la disponibilidad"
+                    },
+                    "state": {
+                        "type": "boolean",
+                        "description": "Estado de la disponibilidad"
+                    }
+                }
+            },
+            "Edifice": {
+                "type": "object",
+                "properties": {
+                    "id_edifice": {
+                        "type": "integer",
+                        "description": "ID del edificio"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del edificio"
+                    },
+                    "num_tag": {
+                        "type": "string",
+                        "description": "Número de tag del edificio"
+                    },
+                    "street": {
+                        "type": "string",
+                        "description": "Calle del edificio"
+                    },
+                    "number": {
+                        "type": "integer",
+                        "description": "Número de calle del edificio"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Localidad del edificio"
+                    },
+                    "province": {
+                        "type": "string",
+                        "description": "Provincia del edificio"
+                    },
+                    "available": {
+                        "type": "string",
+                        "description": "Estado de disponibilidad del edificio"
+                    }
+                }
+            },
+            "Floor": {
+                "type": "object",
+                "properties": {
+                    "id_floor": {
+                        "type": "integer",
+                        "description": "ID del piso"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del piso"
+                    },
+                    "num_tag": {
+                        "type": "string",
+                        "description": "Número de tag del piso"
+                    },
+                    "available": {
+                        "type": "string",
+                        "description": "Estado de disponibilidad del piso"
+                    }
+                }
+            },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "id_location": {
+                        "type": "integer",
+                        "description": "ID de la localidad"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre de la localidad"
+                    },
+                    "postal_code": {
+                        "type": "string",
+                        "description": "Código postal de la localidad"
+                    },
+                    "province": {
+                        "type": "string",
+                        "description": "Provincia de la localidad"
+                    }
+                }
+            },
+            "Logout": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Mensaje de confirmación de logout"
+                    }
+                }
+            },
+            "OtState": {
+                "type": "object",
+                "properties": {
+                    "id_ot_state": {
+                        "type": "integer",
+                        "description": "ID del estado de orden de trabajo"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Descripción del estado de orden de trabajo"
+                    }
+                }
+            },
+            "Ot": {
+                "type": "object",
+                "properties": {
+                    "id_ot": {
+                        "type": "integer",
+                        "description": "ID de la orden de trabajo"
+                    },
+                    "order_number": {
+                        "type": "string",
+                        "description": "Número de la orden de trabajo"
+                    },
+                    "request_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Fecha de solicitud de la orden de trabajo"
+                    },
+                    "initial_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Fecha de inicio de la orden de trabajo"
+                    },
+                    "completion_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Fecha de finalización de la orden de trabajo"
+                    },
+                    "completion_time": {
+                        "type": "string",
+                        "description": "Tiempo de finalización de la orden de trabajo"
+                    },
+                    "observations": {
+                        "type": "string",
+                        "description": "Observaciones de la orden de trabajo"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "Prioridad de la orden de trabajo"
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "Nombre de usuario asociado a la orden de trabajo"
+                    },
+                    "final_tag": {
+                        "type": "string",
+                        "description": "Tag final del activo"
+                    },
+                    "asset_number": {
+                        "type": "string",
+                        "description": "Número del activo"
+                    },
+                    "ot_state": {
+                        "type": "string",
+                        "description": "Estado de la orden de trabajo"
+                    },
+                    "edifice": {
+                        "type": "string",
+                        "description": "Nombre del edificio"
+                    },
+                    "street": {
+                        "type": "string",
+                        "description": "Calle del edificio"
+                    },
+                    "number": {
+                        "type": "integer",
+                        "description": "Número de la calle"
+                    },
+                    "floor": {
+                        "type": "string",
+                        "description": "Nombre del piso"
+                    },
+                    "sector": {
+                        "type": "string",
+                        "description": "Nombre del sector"
+                    },
+                    "asset_type": {
+                        "type": "string",
+                        "description": "Tipo de activo"
+                    },
+                    "task_type": {
+                        "type": "string",
+                        "description": "Tipo de tarea"
+                    },
+                    "code_task_type": {
+                        "type": "string",
+                        "description": "Código del tipo de tarea"
+                    },
+                    "task_list_steps": {
+                        "type": "string",
+                        "description": "Lista de pasos de la tarea"
+                    }
+                }
+            },
+            "Priority": {
+                "type": "object",
+                "properties": {
+                    "id_priority": {
+                        "type": "integer",
+                        "description": "ID de la prioridad"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Descripción de la prioridad"
+                    }
+                }
+            },
+            "Province": {
+                "type": "object",
+                "properties": {
+                    "id_province": {
+                        "type": "integer",
+                        "description": "ID de la provincia"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre de la provincia"
+                    }
+                }
+            },
+            "Sector": {
+                "type": "object",
+                "properties": {
+                    "id_sector": {
+                        "type": "integer",
+                        "description": "ID del sector"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del sector"
+                    },
+                    "num_tag": {
+                        "type": "string",
+                        "description": "Número de tag del sector"
+                    },
+                    "available": {
+                        "type": "string",
+                        "description": "Estado de disponibilidad"
+                    }
+                }
+            },
+            "Site": {
+                "type": "object",
+                "properties": {
+                    "id_site": {
+                        "type": "integer",
+                        "description": "ID de la ubicación"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre de la ubicación"
+                    },
+                    "num_tag": {
+                        "type": "string",
+                        "description": "Número de tag de la ubicación"
+                    }
+                }
+            },
+            "Tag": {
+                "type": "object",
+                "properties": {
+                    "id_tag": {
+                        "type": "integer",
+                        "description": "ID del tag"
+                    },
+                    "final_tag": {
+                        "type": "string",
+                        "description": "Etiqueta final del tag"
+                    },
+                    "reference": {
+                        "type": "string",
+                        "description": "Referencia del tipo de activo"
+                    },
+                    "edifice": {
+                        "type": "string",
+                        "description": "Nombre del edificio"
+                    },
+                    "floor": {
+                        "type": "string",
+                        "description": "Nombre del piso"
+                    },
+                    "sector": {
+                        "type": "string",
+                        "description": "Nombre del sector"
+                    },
+                    "site": {
+                        "type": "string",
+                        "description": "Nombre de la ubicación"
+                    },
+                    "asset_type": {
+                        "type": "string",
+                        "description": "Tipo de activo"
+                    },
+                    "asset_number": {
+                        "type": "string",
+                        "description": "Número del activo"
+                    }
+                }
+            },
+            "TaskList": {
+                "type": "object",
+                "properties": {
+                    "id_task_list": {
+                        "type": "integer",
+                        "description": "ID de la lista de tareas"
+                    },
+                    "asset_type_name": {
+                        "type": "string",
+                        "description": "Nombre del tipo de activo asociado"
+                    },
+                    "task_type_name": {
+                        "type": "string",
+                        "description": "Nombre del tipo de tarea asociado"
+                    },
+                    "step_1": {
+                        "type": "string",
+                        "description": "Descripción del paso 1"
+                    },
+                    "step_2": {
+                        "type": "string",
+                        "description": "Descripción del paso 2"
+                    },
+                    "step_3": {
+                        "type": "string",
+                        "description": "Descripción del paso 3"
+                    },
+                    "step_4": {
+                        "type": "string",
+                        "description": "Descripción del paso 4"
+                    },
+                    "step_5": {
+                        "type": "string",
+                        "description": "Descripción del paso 5"
+                    },
+                    "step_6": {
+                        "type": "string",
+                        "description": "Descripción del paso 6"
+                    },
+                    "step_7": {
+                        "type": "string",
+                        "description": "Descripción del paso 7"
+                    },
+                    "step_8": {
+                        "type": "string",
+                        "description": "Descripción del paso 8"
+                    },
+                    "step_9": {
+                        "type": "string",
+                        "description": "Descripción del paso 9"
+                    },
+                    "step_10": {
+                        "type": "string",
+                        "description": "Descripción del paso 10"
+                    }
+                }
+            },
+            "TaskType": {
+                "type": "object",
+                "properties": {
+                    "id_task_type": {
+                        "type": "integer",
+                        "description": "ID del tipo de tarea"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nombre del tipo de tarea"
+                    },
+                    "code": {
+                        "type": "string",
+                        "description": "Código del tipo de tarea"
+                    }
+                }
+            },
+            "Task": {
+                "type": "object",
+                "properties": {
+                    "id_task": {
+                        "type": "integer",
+                        "description": "ID de la tarea"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Descripción de la tarea"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id_user": {
+                        "type": "integer",
+                        "description": "ID del usuario"
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "Nombre de usuario"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "description": "Apellido del usuario"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Correo electrónico del usuario"
+                    },
+                    "admin": {
+                        "type": "boolean",
+                        "description": "Indica si el usuario es administrador"
+                    },
+                    "available": {
+                        "type": "string",
+                        "description": "Estado de disponibilidad del usuario"
+                    }
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "Correo electrónico del usuario"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Contraseña del usuario"
+                    }
+                },
+                "required": [
+                    "email",
+                    "password"
+                ]
+            },
+            "RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "Nombre de usuario"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "description": "Apellido del usuario"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Correo electrónico del usuario"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Contraseña del usuario"
+                    },
+                    "admin": {
+                        "type": "boolean",
+                        "description": "Indica si el usuario es administrador"
+                    }
+                },
+                "required": [
+                    "username",
+                    "last_name",
+                    "email",
+                    "password",
+                    "admin"
+                ]
+            },
+            "AuthResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Mensaje de resultado del inicio de sesión o registro"
+                    },
+                    "token": {
+                        "type": "string",
+                        "description": "JWT de autenticación, solo en respuesta de login"
+                    },
+                    "isAdmin": {
+                        "type": "boolean",
+                        "description": "Indica si el usuario es administrador, solo en respuesta de login"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/asset-type": {
+            "get": {
+                "summary": "Obtener todos los tipos de activos",
+                "tags": [
+                    "Asset Types"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tipos de activos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AssetType"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un tipo de activo",
+                "tags": [
+                    "Asset Types"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssetType"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tipo de activo creado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/asset-type/{id}": {
+            "get": {
+                "summary": "Obtener un tipo de activo por ID",
+                "tags": [
+                    "Asset Types"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tipo de activo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del tipo de activo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetType"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tipo de activo no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un tipo de activo",
+                "tags": [
+                    "Asset Types"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tipo de activo a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssetType"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tipo de activo actualizado"
+                    },
+                    "404": {
+                        "description": "Tipo de activo no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un tipo de activo",
+                "tags": [
+                    "Asset Types"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tipo de activo a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tipo de activo eliminado"
+                    },
+                    "404": {
+                        "description": "Tipo de activo no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/available": {
+            "get": {
+                "summary": "Obtener todas las disponibilidades",
+                "tags": [
+                    "Available"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de disponibilidades",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Available"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/available/{id}": {
+            "get": {
+                "summary": "Obtener una disponibilidad por ID",
+                "tags": [
+                    "Available"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la disponibilidad"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la disponibilidad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Available"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Disponibilidad no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/edifice": {
+            "get": {
+                "summary": "Obtener todos los edificios",
+                "tags": [
+                    "Edifice"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de edificios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Edifice"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo edificio",
+                "tags": [
+                    "Edifice"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Edifice"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Edificio creado exitosamente"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/edifice/{id}": {
+            "get": {
+                "summary": "Obtener un edificio por ID",
+                "tags": [
+                    "Edifice"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del edificio"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del edificio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Edifice"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Edificio no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un edificio",
+                "tags": [
+                    "Edifice"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del edificio a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Edifice"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Edificio actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Edificio no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un edificio",
+                "tags": [
+                    "Edifice"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del edificio a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Edificio eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Edificio no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/floor": {
+            "get": {
+                "summary": "Obtener todos los pisos",
+                "tags": [
+                    "Floor"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de pisos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Floor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo piso",
+                "tags": [
+                    "Floor"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Floor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Piso creado exitosamente"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/floor/{id}": {
+            "get": {
+                "summary": "Obtener un piso por ID",
+                "tags": [
+                    "Floor"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del piso"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del piso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Floor"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Piso no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un piso",
+                "tags": [
+                    "Floor"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del piso a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Floor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Piso actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Piso no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un piso",
+                "tags": [
+                    "Floor"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del piso a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Piso eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Piso no encontrado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/location": {
+            "get": {
+                "summary": "Obtener todas las localidades",
+                "tags": [
+                    "Location"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de localidades",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/location/{id}": {
+            "get": {
+                "summary": "Obtener una localidad por ID",
+                "tags": [
+                    "Location"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la localidad"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la localidad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Location"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Localidad no encontrada"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "summary": "Cerrar sesión del usuario",
+                "tags": [
+                    "Logout"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logout exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout exitoso"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No hay sesión activa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No hay sesión activa"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ot-state": {
+            "get": {
+                "summary": "Obtener todos los estados de órdenes de trabajo",
+                "tags": [
+                    "OT State"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de estados de órdenes de trabajo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OtState"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener los estados de órdenes de trabajo"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo estado de orden de trabajo",
+                "tags": [
+                    "OT State"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OtState"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Estado de orden de trabajo creado exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear el estado de orden de trabajo"
+                    }
+                }
+            }
+        },
+        "/ot-state/{id}": {
+            "get": {
+                "summary": "Obtener un estado de orden de trabajo por ID",
+                "tags": [
+                    "OT State"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del estado de orden de trabajo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del estado de orden de trabajo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OtState"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estado de orden de trabajo no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al obtener el estado de orden de trabajo"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un estado de orden de trabajo",
+                "tags": [
+                    "OT State"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del estado de orden de trabajo a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OtState"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Estado de orden de trabajo actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Estado de orden de trabajo no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al actualizar el estado de orden de trabajo"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un estado de orden de trabajo",
+                "tags": [
+                    "OT State"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del estado de orden de trabajo a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Estado de orden de trabajo eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Estado de orden de trabajo no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al eliminar el estado de orden de trabajo"
+                    }
+                }
+            }
+        },
+        "/ot": {
+            "get": {
+                "summary": "Obtener todas las órdenes de trabajo",
+                "tags": [
+                    "OT"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de órdenes de trabajo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ot"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener las órdenes de trabajo"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva orden de trabajo",
+                "tags": [
+                    "OT"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ot"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Orden de trabajo creada exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear la orden de trabajo"
+                    }
+                }
+            }
+        },
+        "/ot/{id}": {
+            "get": {
+                "summary": "Obtener una orden de trabajo por ID",
+                "tags": [
+                    "OT"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la orden de trabajo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la orden de trabajo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ot"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Orden de trabajo no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al obtener la orden de trabajo"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar una orden de trabajo",
+                "tags": [
+                    "OT"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la orden de trabajo a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ot"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Orden de trabajo actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Orden de trabajo no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la orden de trabajo"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar una orden de trabajo",
+                "tags": [
+                    "OT"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la orden de trabajo a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Orden de trabajo eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Orden de trabajo no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la orden de trabajo"
+                    }
+                }
+            }
+        },
+        "/priority": {
+            "get": {
+                "summary": "Obtener todas las prioridades",
+                "tags": [
+                    "Priority"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de prioridades",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Priority"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener prioridades"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva prioridad",
+                "tags": [
+                    "Priority"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Priority"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Prioridad creada exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear la prioridad"
+                    }
+                }
+            }
+        },
+        "/priority/{id}": {
+            "get": {
+                "summary": "Obtener una prioridad por ID",
+                "tags": [
+                    "Priority"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la prioridad"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la prioridad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Priority"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Prioridad no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al obtener la prioridad"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar una prioridad",
+                "tags": [
+                    "Priority"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la prioridad a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Priority"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Prioridad actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Prioridad no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la prioridad"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar una prioridad",
+                "tags": [
+                    "Priority"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la prioridad a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Prioridad eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Prioridad no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la prioridad"
+                    }
+                }
+            }
+        },
+        "/province": {
+            "get": {
+                "summary": "Obtener todas las provincias",
+                "tags": [
+                    "Province"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de provincias",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Province"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener provincias"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva provincia",
+                "tags": [
+                    "Province"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Province"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Provincia creada exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear la provincia"
+                    }
+                }
+            }
+        },
+        "/province/{id}": {
+            "get": {
+                "summary": "Obtener una provincia por ID",
+                "tags": [
+                    "Province"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la provincia"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la provincia",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Province"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Provincia no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al obtener la provincia"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar una provincia",
+                "tags": [
+                    "Province"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la provincia a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Province"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Provincia actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Provincia no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la provincia"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar una provincia",
+                "tags": [
+                    "Province"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la provincia a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Provincia eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Provincia no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la provincia"
+                    }
+                }
+            }
+        },
+        "/sector": {
+            "get": {
+                "summary": "Obtener todos los sectores",
+                "tags": [
+                    "Sector"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de sectores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Sector"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener sectores"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo sector",
+                "tags": [
+                    "Sector"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Sector"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sector creado exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear el sector"
+                    }
+                }
+            }
+        },
+        "/sector/{id}": {
+            "get": {
+                "summary": "Obtener un sector por ID",
+                "tags": [
+                    "Sector"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del sector"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del sector",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Sector"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Sector no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al obtener el sector"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un sector",
+                "tags": [
+                    "Sector"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del sector a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Sector"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sector actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Sector no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al actualizar el sector"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un sector",
+                "tags": [
+                    "Sector"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del sector a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Sector eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Sector no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al eliminar el sector"
+                    }
+                }
+            }
+        },
+        "/site": {
+            "get": {
+                "summary": "Obtener todas las ubicaciones",
+                "tags": [
+                    "Site"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de ubicaciones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Site"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener las ubicaciones"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva ubicación",
+                "tags": [
+                    "Site"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Site"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ubicación creada exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear la ubicación"
+                    }
+                }
+            }
+        },
+        "/site/{id}": {
+            "get": {
+                "summary": "Obtener una ubicación por ID",
+                "tags": [
+                    "Site"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la ubicación"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la ubicación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Site"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ubicación no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al obtener la ubicación"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar una ubicación",
+                "tags": [
+                    "Site"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la ubicación a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Site"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ubicación actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Ubicación no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la ubicación"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar una ubicación",
+                "tags": [
+                    "Site"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la ubicación a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Ubicación eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Ubicación no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la ubicación"
+                    }
+                }
+            }
+        },
+        "/tag": {
+            "get": {
+                "summary": "Obtener todos los tags",
+                "tags": [
+                    "Tag"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tags",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tag"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener tags"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo tag",
+                "tags": [
+                    "Tag"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Tag"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tag creado exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear el tag"
+                    }
+                }
+            }
+        },
+        "/tag/{id}": {
+            "get": {
+                "summary": "Obtener un tag por ID",
+                "tags": [
+                    "Tag"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tag"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del tag",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tag"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al obtener el tag"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un tag",
+                "tags": [
+                    "Tag"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tag a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Tag"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tag actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Tag no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al actualizar el tag"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un tag",
+                "tags": [
+                    "Tag"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tag a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tag eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Tag no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al eliminar el tag"
+                    }
+                }
+            }
+        },
+        "/task-list": {
+            "get": {
+                "summary": "Obtener todas las listas de tareas",
+                "tags": [
+                    "Task List"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de listas de tareas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TaskList"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de tareas"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva lista de tareas",
+                "tags": [
+                    "Task List"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskList"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lista de tareas creada exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear la lista de tareas"
+                    }
+                }
+            }
+        },
+        "/task-list/{id}": {
+            "get": {
+                "summary": "Obtener una lista de tareas por ID",
+                "tags": [
+                    "Task List"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la lista de tareas"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la lista de tareas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskList"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lista de tareas no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al obtener la lista de tareas"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar una lista de tareas",
+                "tags": [
+                    "Task List"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la lista de tareas a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskList"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lista de tareas actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Lista de tareas no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la lista de tareas"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar una lista de tareas",
+                "tags": [
+                    "Task List"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la lista de tareas a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Lista de tareas eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Lista de tareas no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la lista de tareas"
+                    }
+                }
+            }
+        },
+        "/task-list/filter": {
+            "post": {
+                "summary": "Filtrar listas de tareas por tipo de activo y tipo de tarea",
+                "tags": [
+                    "Task List"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "asset_type": {
+                                        "type": "integer",
+                                        "description": "ID del tipo de activo"
+                                    },
+                                    "task_type": {
+                                        "type": "integer",
+                                        "description": "ID del tipo de tarea"
+                                    }
+                                },
+                                "required": [
+                                    "asset_type",
+                                    "task_type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Listas de tareas filtradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TaskList"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos insuficientes"
+                    },
+                    "500": {
+                        "description": "Error al obtener los datos"
+                    }
+                }
+            }
+        },
+        "/task-type": {
+            "get": {
+                "summary": "Obtener todos los tipos de tarea",
+                "tags": [
+                    "Task Type"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tipos de tarea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TaskType"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener los tipos de tarea"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear un nuevo tipo de tarea",
+                "tags": [
+                    "Task Type"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tipo de tarea creado exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear el tipo de tarea"
+                    }
+                }
+            }
+        },
+        "/task-type/{id}": {
+            "get": {
+                "summary": "Obtener un tipo de tarea por ID",
+                "tags": [
+                    "Task Type"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tipo de tarea"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del tipo de tarea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskType"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tipo de tarea no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al obtener el tipo de tarea"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un tipo de tarea",
+                "tags": [
+                    "Task Type"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tipo de tarea a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TaskType"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tipo de tarea actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Tipo de tarea no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al actualizar el tipo de tarea"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un tipo de tarea",
+                "tags": [
+                    "Task Type"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del tipo de tarea a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tipo de tarea eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Tipo de tarea no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al eliminar el tipo de tarea"
+                    }
+                }
+            }
+        },
+        "/task": {
+            "get": {
+                "summary": "Obtener todas las tareas",
+                "tags": [
+                    "Task"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tareas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener las tareas"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crear una nueva tarea",
+                "tags": [
+                    "Task"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tarea creada exitosamente"
+                    },
+                    "500": {
+                        "description": "Error al crear la tarea"
+                    }
+                }
+            }
+        },
+        "/task/{id}": {
+            "get": {
+                "summary": "Obtener una tarea por ID",
+                "tags": [
+                    "Task"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la tarea"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la tarea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al obtener la tarea"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar una tarea",
+                "tags": [
+                    "Task"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la tarea a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Task"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea actualizada exitosamente"
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la tarea"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar una tarea",
+                "tags": [
+                    "Task"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID de la tarea a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tarea eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la tarea"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "summary": "Obtener todos los usuarios",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener los usuarios"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "summary": "Obtener un usuario por ID",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del usuario"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al obtener el usuario"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Actualizar un usuario",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del usuario a actualizar"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al actualizar el usuario"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Eliminar un usuario",
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID del usuario a eliminar"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuario eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "500": {
+                        "description": "Error al eliminar el usuario"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Iniciar sesión",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inicio de sesión exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas"
+                    },
+                    "500": {
+                        "description": "Error en el servidor"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "summary": "Registrar un nuevo usuario",
+                "tags": [
+                    "Auth"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "El correo ya está registrado"
+                    },
+                    "500": {
+                        "description": "Error al registrar usuario"
+                    }
+                }
+            }
+        }
+    }
+}

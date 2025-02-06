@@ -1,0 +1,59 @@
+<div class="floor-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Pisos</h1>
+
+  <div *ngIf="message" class="message" [ngClass]="messageType">{{ message }}</div>
+
+  <div class="section-title">Lista de Pisos</div>
+
+  <table class="floor-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Número de Tag</th>
+        <th>Disponibilidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let floor of floors" class="floor-row">
+        <td>{{ floor.name }}</td>
+        <td>{{ floor.num_tag }}</td>
+        <td>{{ floor.available }}</td>
+        <td>
+          <button class="edit-button" (click)="selectFloorForEdit(floor)">Editar</button>
+          <button class="delete-button" (click)="deleteFloor(floor.id_floor)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="create-button-container">
+    <button class="create-button" (click)="openCreateForm()">Crear Nuevo Piso</button>
+  </div>
+
+  <div *ngIf="creatingFloor || editMode" class="form-container">
+    <h2 class="form-title">{{ editMode ? 'Editar Piso' : 'Crear Nuevo Piso' }}</h2>
+    <form (ngSubmit)="editMode ? updateFloor() : createFloor()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input id="name" [(ngModel)]="floorForm.name" name="name" required class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="num_tag">Número de Tag</label>
+        <input id="num_tag" [(ngModel)]="floorForm.num_tag" name="num_tag" required class="form-input" />
+      </div>
+      <div class="form-group" *ngIf="editMode">
+        <label for="id_available">Disponibilidad</label>
+        <select id="id_available" [(ngModel)]="floorForm.id_available" name="id_available" class="form-input">
+          <option [value]="1">Disponible</option>
+          <option [value]="2">No Disponible</option>
+        </select>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="submit-button">{{ editMode ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="clear-button" (click)="clearForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
